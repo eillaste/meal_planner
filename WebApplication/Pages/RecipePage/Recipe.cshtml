@@ -1,0 +1,94 @@
+@page
+@model WebApplication.Pages_Recipes.RecipePageModel
+
+
+@functions{
+
+    public string getImageSource(int id)
+    {
+        return id.ToString().ToLower() + ".png";
+    }
+}
+<link href="~/css/recipe.css" rel="stylesheet" type="text/css" />
+<h1>@Model.Recipe!.Name</h1>
+<img class="recipe-image" src="~/img/@getImageSource(@Model.Recipe.Id)"/>
+<div>
+    <h4>Recipe</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        @foreach (var item in Model.Recipe!.RecipeTags!) {
+            <dd class="col-sm-10">
+                @Model.Tags!.First(t => t.Id == item.TagId).Name
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipe!.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Recipe!.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipe!.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Recipe!.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipe!.Instructions)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Recipe!.Instructions)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipe!.Servings)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Recipe!.Servings)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipe!.PrepTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Recipe!.PrepTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recipe!.Ingredients)
+        </dt>
+        @foreach (var item in Model.Recipe!.Ingredients!) {
+
+            <dd class="dd-mine">
+                @Model.Products!.First(p => p.Id == item.ProductId).Name:
+                @item.Quantity
+                @Model.Products!.First(p => p.Id == item.ProductId).Unit!.Name,
+            </dd>
+        }
+
+    </dl>
+</div>
+@if (@Model.Servings != 0)
+{
+  <p><b>You specified that you'll be cooking for @Model.Servings people, in which case you will only need:</b></p> 
+  @foreach (var item in Model.Recipe!.Ingredients!) {
+
+      <dd class="dd-mine">
+          @Model.Products!.First(p => p.Id == item.ProductId).Name:
+          @String.Format("{0:0.00}", (item.Quantity/Model.Recipe!.Servings*Model.Servings))
+          @Model.Products!.First(p => p.Id == item.ProductId).Unit!.Name,
+      </dd>
+  }
+  
+}
+<br>
+<b>Bon Appétit! :)  </b>
+<br>
+<br>
+<div>
+    <a onclick="window.history.back();"  class="btn btn-primary link-mine">Back to Recipes</a>
+</div>
+
+<style>
+
+</style>

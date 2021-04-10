@@ -1,0 +1,104 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<link href="~/css/main.css" rel="stylesheet" type="text/css" />
+<div class="text-center">
+    <h1 class="display-4">Are you hungry?</h1>
+    <p>Tell us how much time you have, how many people are eating, <br>pick a dish type, and specify ingredients you want to include or omit <br><br> We'll take care of the rest ;)</p>
+    <form method="post" class="form-mine">
+        <div>
+
+            <div class="form-group">
+                <label asp-for="Recipe!.PrepTime" class="control-label" ></label>
+                <input asp-for="Recipe!.PrepTime" name="timespan" class="form-control input-mine" value="00:30:00"/>
+                <span asp-validation-for="Recipe!.PrepTime" class="text-danger"></span>
+            </div>
+
+            
+            <div class="form-group">
+                <label asp-for="Recipe!.Servings" class="control-label" ></label>
+                <input asp-for="Recipe!.Servings" name="people"  class="form-control input-mine" value="3"/>
+                <span asp-validation-for="Recipe!.Servings" class="text-danger"></span>
+            </div>
+                        
+            <div class="form-group">
+                <label asp-for="RecipeTag!.TagId" class="control-label" >Choose tag</label>
+                <select asp-for="RecipeTag!.TagId" name="tagid" class ="form-control input-mine" asp-items="@Model.TagId"></select>
+            </div>
+                        
+            <div class="form-group">
+                <label asp-for="Ingredient!.ProductId" class="control-label" >I want this in my dish</label>
+                <select asp-for="Ingredient!.ProductId" name="goodfood" class ="form-control input-mine" asp-items="@Model.ProductId"></select>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Ingredient!.ProductId" class="control-label" >I don't want this in my dish!!</label>
+                <select asp-for="Ingredient!.ProductId" name="badfood" class ="form-control input-mine" asp-items="@Model.ProductId"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="submit" value="Find Recipes" class="btn btn-primary p2"/>
+            </div>
+
+        </div>
+    </form>
+    <h4>Recipes:</h4>
+    <br>
+    
+    <table class="table" >
+        <thead>
+        <tr>
+            <th >
+                @Html.DisplayNameFor(model => model.Recipes![0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipes![0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipes![0].Instructions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipes![0].Servings)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipes![0].PrepTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recipes![0].Ingredients)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Recipes!) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Instructions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Servings)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrepTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ingredients!.Count)
+                </td>
+                <td onclick="window.location.href = '/RecipePage/Recipe?id=@item.Id&servings=@Model.Servings'" style="cursor: pointer"><b>Read more</b></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<style>
+
+</style>

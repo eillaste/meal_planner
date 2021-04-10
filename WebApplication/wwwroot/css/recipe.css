@@ -1,0 +1,13 @@
+﻿.recipe-image{
+    background: #0c5460;
+    width: 533px;
+    height:300px;
+    border-radius: 4%
+}
+.link-mine{
+    cursor:pointer;
+    color: white!important;
+}
+.dd-mine{
+    margin-left:15px;
+}
